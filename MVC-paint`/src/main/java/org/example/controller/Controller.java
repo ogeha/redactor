@@ -3,6 +3,8 @@ package org.example.controller;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.model.NoFill;
+import org.example.model.shape.factory.fill.RectangleCreate;
+import org.example.model.shape.factory.fill.RectangleFactory;
 import org.example.view.MyFrame;
 import org.example.view.MyPanel;
 
@@ -17,11 +19,19 @@ public class Controller {
     private MyPanel panel;
     private Point2D firstPoint;
     private Point2D secondPoint;
-    static  Controller controller;
+    private static  Controller ins;
 
-    public Controller() {
+    public static synchronized Controller getInstance() {
+        if (ins == null) {
+            ins = new Controller();
+        }
+        return ins;
+    }
+
+    private Controller() {
         model = new Model();
-        MyShape shape = new MyShape(new Rectangle2D.Double());
+        RectangleCreate create = new RectangleCreate();
+        MyShape shape = new MyShape(create.createShape());
         shape.setFb(new NoFill());
         model.setMyShape(shape);
 
