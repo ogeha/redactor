@@ -7,24 +7,41 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class ActionDraw {
-    public static MyShape sampleShape;
-    private static MyShape shape;
-    private static Model model;
-    private static Point2D firstPoint;
-    private static Point2D secondPoint;
+    private  MyShape sampleShape;
+    private MyShape shape;
+    private Model model;
+    private Point2D firstPoint;
+    private Point2D secondPoint;
 
-    public ActionDraw(MyShape shape, Model model, Point2D firstPoint, Point2D secondPoint) {
-        this.shape = shape;
+    public ActionDraw(Model model) {
         this.model = model;
+    }
+
+    public void setSampleShape(MyShape sampleShape) {
+        this.sampleShape = sampleShape;
+    }
+
+    public void setFirstPoint(Point2D firstPoint) {
         this.firstPoint = firstPoint;
+    }
+
+    public void setSecondPoint(Point2D secondPoint) {
         this.secondPoint = secondPoint;
     }
 
-    public static void stretchShape(Point point){
+    public Point2D getFirstPoint() {
+        return firstPoint;
+    }
+
+    public Point2D getSecondPoint() {
+        return secondPoint;
+    }
+
+    public void stretchShape(Point point){
         firstPoint = (Point2D) point;
         shape.setFrame(firstPoint, secondPoint);
     }
-    public static void createShape(Point point) throws CloneNotSupportedException {
+    public void createShape(Point point){
         secondPoint = (Point2D) point;
         shape = sampleShape.clone();
         model.createCurrentShape(shape);

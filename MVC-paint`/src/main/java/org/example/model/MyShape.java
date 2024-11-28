@@ -55,16 +55,12 @@ public class MyShape implements Cloneable {
     }
 
     @Override
-    public MyShape clone() throws CloneNotSupportedException {
-        try {
-            MyShape newShape = (MyShape) super.clone(); //Корректное приведение к типу MyShape
-            if(newShape.shape != null) { //Проверка на null, чтобы избежать NullPointerException
-                newShape.shape = this.shape; // Глубокое клонирование shape
-            }
-            return newShape;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Error cloning MyShape", e);
+    public MyShape clone()  {
+        MyShape newShape = new MyShape();
+        if(newShape.shape != null) {
+            newShape.shape = this.shape;
         }
+        return newShape;
     }
 }
 

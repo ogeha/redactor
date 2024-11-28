@@ -32,12 +32,11 @@ public class Controller {
 
     private Controller() {
         model = new Model();
-        RectangleCreate create = new RectangleCreate();
-        MyShape shape = new MyShape(create.createShape());
+        MyShape shape = new MyShape(new Rectangle2D.Double());
         shape.setFb(new NoFill());
         model.setMyShape(shape);
-        ActionDraw actionDraw = new ActionDraw(shape, model, firstPoint, secondPoint);
-        ActionDraw.sampleShape = shape;
+        ActionDraw actionDraw = new ActionDraw(model);
+        actionDraw.setSampleShape(shape);
 
         panel = new MyPanel(this);
         // TODO: 25.10.2024 Поменять наблюдатель на более современную реализацию
@@ -55,20 +54,16 @@ public class Controller {
     }
 
     public void draw(Graphics2D g2) {
-        ArrayList<MyShape> curList = new ArrayList<MyShape>(Model.getModels());
-        for (MyShape i  : curList){
             model.draw(g2);
-        }
     }
+
     public void mousePressed(Point p){
-        ActionDraw.stretchShape(p);
+        ActionDraw actionDraw = new ActionDraw(model);
+        actionDraw.stretchShape(p);
     }
-    public void mouseDragged(Point p) throws CloneNotSupportedException {
-        try {
-            ActionDraw.createShape(p);
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
-        }
+    public void mouseDragged(Point p){
+        ActionDraw actionDraw = new ActionDraw(model);
+        actionDraw.createShape(p);
     }
 
 
