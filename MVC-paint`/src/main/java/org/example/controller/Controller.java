@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.controller.action.ActionDraw;
 import org.example.model.Model;
 import org.example.model.MyShape;
 import org.example.model.NoFill;
@@ -11,6 +12,7 @@ import org.example.view.MyPanel;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 // TODO: 24.10.2024 Сделать singleton класс
 public class Controller {
@@ -34,6 +36,8 @@ public class Controller {
         MyShape shape = new MyShape(create.createShape());
         shape.setFb(new NoFill());
         model.setMyShape(shape);
+        ActionDraw actionDraw = new ActionDraw(shape, model, firstPoint, secondPoint);
+        ActionDraw.sampleShape = shape;
 
         panel = new MyPanel(this);
         // TODO: 25.10.2024 Поменять наблюдатель на более современную реализацию
@@ -51,7 +55,20 @@ public class Controller {
     }
 
     public void draw(Graphics2D g2) {
-        model.draw(g2);
+        ArrayList<MyShape> curList = new ArrayList<MyShape>(Model.getModels());
+        for (MyShape i  : curList){
+            model.draw(g2);
+        }
+    }
+    public void mousePressed(Point p){
+        ActionDraw.stretchShape(p);
+    }
+    public void mouseDragged(Point p) throws CloneNotSupportedException {
+        try {
+            ActionDraw.createShape(p);
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

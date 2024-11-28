@@ -2,11 +2,9 @@ package org.example.model;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RectangularShape;
+import java.awt.geom.*;
 
-public class MyShape {
+public class MyShape implements Cloneable {
     private Color color;
     private RectangularShape shape;
     private FillBehavior fb;
@@ -55,4 +53,18 @@ public class MyShape {
         fb.draw(g);
 
     }
+
+    @Override
+    public MyShape clone() throws CloneNotSupportedException {
+        try {
+            MyShape newShape = (MyShape) super.clone(); //Корректное приведение к типу MyShape
+            if(newShape.shape != null) { //Проверка на null, чтобы избежать NullPointerException
+                newShape.shape = this.shape; // Глубокое клонирование shape
+            }
+            return newShape;
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Error cloning MyShape", e);
+        }
+    }
 }
+
